@@ -1,6 +1,6 @@
 {
-    "name": "felixdorn/laravel-healthful",
-    "description": "laravel-healthful",
+    "name": "redwebcreation/laravel-healthful",
+    "description": "Checks if your application is healthy.",
     "license": "MIT",
     "authors": [
         {
