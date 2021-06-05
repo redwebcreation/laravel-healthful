@@ -1,6 +1,6 @@
 <?php
 
-function usesDatabase()
+function useDatabase()
 {
     app('config')->set('database.default', 'tests');
     app('config')->set('database.connections.tests', [

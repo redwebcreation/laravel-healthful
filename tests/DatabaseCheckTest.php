@@ -6,7 +6,7 @@ use RWC\Healthful\Tests\TestCase;
 uses(TestCase::class);
 
 it('passes', function () {
-    usesDatabase();
+    useDatabase();
 
     $check = new DatabaseCheck();
 

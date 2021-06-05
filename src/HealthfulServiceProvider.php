@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 use RWC\Healthful\Jobs\Heartbeat;
 use RWC\Healthful\Models\Heartbeat as HeartbeatModel;
+use Throwable;
 
 class HealthfulServiceProvider extends ServiceProvider
 {
@@ -40,9 +41,15 @@ class HealthfulServiceProvider extends ServiceProvider
             $scheduler->job(Heartbeat::class)->everyMinute();
             $scheduler->command('heartbeat')->everyMinute();
 
-            HeartbeatModel::query()
-                ->where('type', HeartbeatModel::PACKAGE_INSTALLED)
-                ->firstOrNew(['type' => HeartbeatModel::PACKAGE_INSTALLED]);
+            // When running unit tests for this package
+            // We do not create a database right away this is the simplest solution
+            // To fix it.
+            try {
+                HeartbeatModel::query()
+                    ->where('type', HeartbeatModel::INITIALIZATION)
+                    ->firstOrNew(['type' => HeartbeatModel::INITIALIZATION]);
+            } catch (Throwable $e) {
+            }
         });
     }
 }

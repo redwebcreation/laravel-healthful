@@ -7,7 +7,7 @@ use RWC\Healthful\Tests\TestCase;
 uses(TestCase::class);
 
 it('returns true when application is healthy', function () {
-    usesDatabase();
+    useDatabase();
 
     Heartbeat::create(['type' => Heartbeat::SCHEDULE]);
     Heartbeat::create(['type' => Heartbeat::JOB]);
