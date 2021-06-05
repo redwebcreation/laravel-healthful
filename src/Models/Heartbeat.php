@@ -14,19 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Heartbeat extends Model
 {
-    public const INITIALIZATION    = 1;
-    public const JOB               = 2;
-    public const SCHEDULE          = 3;
+    public const JOB      = 1;
+    public const SCHEDULE = 2;
 
     protected $fillable = ['type'];
-
-    public static function initialization(): Carbon
-    {
-        /* @phpstan-ignore-next-line */
-        return self::query()
-                ->where('type', static::INITIALIZATION)
-                ->first()->created_at ?? now()->year(1);
-    }
 
     public function isOfType(int $type): bool
     {

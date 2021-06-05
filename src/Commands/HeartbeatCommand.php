@@ -7,7 +7,7 @@ use RWC\Healthful\Models\Heartbeat;
 
 class HeartbeatCommand extends Command
 {
-    protected $signature = 'heartbeat';
+    protected $signature = 'schedule:heartbeat';
 
     protected $description = 'Registers a SCHEDULE heartbeat.';
 
