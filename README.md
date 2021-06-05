@@ -20,7 +20,7 @@ composer require redwebcreation/laravel-healthful
 
 The package will automatically register itself.
 
-You'll need to publish the migrations if you're using the `SchedulerCheck` or the `QueueCheck`:
+You'll need to publish the migrations :
 
 ```bash
 php artisan vendor:publish --tag="healthful-migrations"
@@ -103,6 +103,37 @@ return [
     // ...
     IsMondayCheck::class
 ];
+```
+
+You can also use the `Heartbeat` model :
+
+```php
+use RWC\Healthful\Models\Heartbeat;
+
+$heartbeat = Heartbeat::firstOrNew([
+    'type' => 100 // any number above 100
+]);
+
+$heartbeat->updateTimestamps();
+$heartbeat->save();
+```
+
+Then, in your check :
+
+```php
+use RWC\Healthful\Checks\Check;
+use RWC\Healthful\Models\Heartbeat;
+
+class MyCheck implements Check {
+    public function passes(): bool {
+        $heartbeat = Heartbeat::query()
+            ->where('type', 100)
+            ->where('updated_at', '>=', now()->subMinutes(5))
+            ->first();
+
+        return $heartbeat !== null;
+    }
+}
 ```
 
 ### Integration with Docker
