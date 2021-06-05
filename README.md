@@ -20,6 +20,12 @@ composer require redwebcreation/laravel-healthful
 
 The package will automatically register itself.
 
+You'll need to publish the migrations if you're using the `SchedulerCheck` or the `QueueCheck`:
+
+```bash
+php artisan vendor:publish --tag="healthful-migrations"
+```
+
 Optionally you can publish the config file:
 
 ```bash
@@ -108,7 +114,7 @@ HEALTHCHECK --interval=1m --timeout=30s --retries=3 CMD curl --fail http://local
 
 ## Testing
 
-```bash
+```bash SQLSTATE[HY000]: General error: 1 no such table: heartbeats (SQL: select * from "heartbeats" where "type" = 2 and "updated_at" >= 2021-06-05 19:58:24 limit 1) 
 composer test
 ```
 
