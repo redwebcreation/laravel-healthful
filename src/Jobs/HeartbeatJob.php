@@ -7,9 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use RWC\Healthful\Models\Heartbeat as HeartbeatModel;
+use RWC\Healthful\Models\Heartbeat;
 
-class Heartbeat implements ShouldQueue
+class HeartbeatJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -20,9 +20,8 @@ class Heartbeat implements ShouldQueue
 
     public function handle(): void
     {
-        /** @var HeartbeatModel $heartbeat */
-        $heartbeat = HeartbeatModel::firstOrNew([
-            'type' => HeartbeatModel::JOB,
+        $heartbeat = Heartbeat::firstOrNew([
+            'type' => Heartbeat::JOB,
         ]);
 
         $heartbeat->updateTimestamps();

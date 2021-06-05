@@ -3,9 +3,9 @@
 namespace RWC\Healthful\Commands;
 
 use Illuminate\Console\Command;
-use RWC\Healthful\Models\Heartbeat as HeartbeatModel;
+use RWC\Healthful\Models\Heartbeat;
 
-class Heartbeat extends Command
+class HeartbeatCommand extends Command
 {
     protected $signature = 'heartbeat';
 
@@ -13,9 +13,8 @@ class Heartbeat extends Command
 
     public function handle(): void
     {
-        /** @var HeartbeatModel $heartbeat */
-        $heartbeat = HeartbeatModel::firstOrNew([
-            'type' => HeartbeatModel::SCHEDULE,
+        $heartbeat = Heartbeat::firstOrNew([
+            'type' => Heartbeat::SCHEDULE,
         ]);
 
         $heartbeat->updateTimestamps();

@@ -4,8 +4,8 @@ namespace RWC\Healthful;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
-use RWC\Healthful\Jobs\Heartbeat;
-use RWC\Healthful\Models\Heartbeat as HeartbeatModel;
+use RWC\Healthful\Jobs\HeartbeatJob;
+use RWC\Healthful\Models\Heartbeat;
 use Throwable;
 
 class HealthfulServiceProvider extends ServiceProvider
@@ -25,7 +25,7 @@ class HealthfulServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../config/healthful.php' => config_path('healthful.hp'),
+            __DIR__ . '/../config/healthful.php' => config_path('healthful.php'),
         ], ['healthful-config', 'healthful']);
     }
 
@@ -38,16 +38,16 @@ class HealthfulServiceProvider extends ServiceProvider
         $this->app->booted(function () {
             $scheduler = $this->app->make(Schedule::class);
 
-            $scheduler->job(Heartbeat::class)->everyMinute();
+            $scheduler->job(HeartbeatJob::class)->everyMinute();
             $scheduler->command('heartbeat')->everyMinute();
 
             // When running unit tests for this package
             // We do not create a database right away this is the simplest solution
             // To fix it.
             try {
-                HeartbeatModel::query()
-                    ->where('type', HeartbeatModel::INITIALIZATION)
-                    ->firstOrNew(['type' => HeartbeatModel::INITIALIZATION]);
+                Heartbeat::query()
+                    ->where('type', Heartbeat::INITIALIZATION)
+                    ->firstOrCreate(['type' => Heartbeat::INITIALIZATION]);
             } catch (Throwable $e) {
             }
         });
