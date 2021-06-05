@@ -119,7 +119,7 @@ $heartbeat->save();
 ```
 
 Then, in your check :
-
+<
 ```php
 use RWC\Healthful\Checks\Check;
 use RWC\Healthful\Models\Heartbeat;

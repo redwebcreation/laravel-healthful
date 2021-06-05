@@ -5,6 +5,7 @@ namespace RWC\Healthful;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 use RWC\Healthful\Jobs\Heartbeat;
+use RWC\Healthful\Models\Heartbeat as HeartbeatModel;
 
 class HealthfulServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,10 @@ class HealthfulServiceProvider extends ServiceProvider
 
             $scheduler->job(Heartbeat::class)->everyMinute();
             $scheduler->command('heartbeat')->everyMinute();
+
+            HeartbeatModel::query()
+                ->where('type', HeartbeatModel::PACKAGE_INSTALLED)
+                ->firstOrNew(['type' => HeartbeatModel::PACKAGE_INSTALLED]);
         });
     }
 }
