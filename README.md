@@ -100,8 +100,11 @@ class IsMondayCheck implements Check {
 ```php
 // config/healthful.php
 return [
-    // ...
-    IsMondayCheck::class
+    'checks' => [
+        // ...
+        IsMondayCheck::class
+    ]
+    
 ];
 ```
 
@@ -120,6 +123,7 @@ $heartbeat->save();
 
 Then, in your check :
 <
+
 ```php
 use RWC\Healthful\Checks\Check;
 use RWC\Healthful\Models\Heartbeat;
