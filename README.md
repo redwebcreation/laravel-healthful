@@ -42,13 +42,12 @@ use RWC\Healthful\Checks\QueueCheck;
 use RWC\Healthful\Checks\SchedulerCheck;
 
 return [
-    /**
-     * A list of checks to be performed.
-     */
+    /* The route that should return the health status */
+    'route' => '/_/health',
+
+    /* A list of checks to be performed. */
     'checks' => [
         DatabaseCheck::class,
-        SchedulerCheck::class,
-        QueueCheck::class,
     ]
 ];
 ```
@@ -74,14 +73,6 @@ Health::route()->name('healthcheck');
 ```
 
 It registers a route at `/_/health` that returns a 200 if all the checks passed, or a 503 if one of them doesn't.
-
-You can configure the URI via the `Health::$route` property :
-
-```php
-use RWC\Healthful\Health;
-
-Health::$route = '/healthcheck';
-```
 
 ### Custom checks
 
@@ -121,6 +112,9 @@ $heartbeat->updateTimestamps();
 $heartbeat->save();
 ```
 
+You need to specify a `type` above 100 so heartbeats of other kinds provided by this package won't ever collide with
+yours.
+
 Then, in your check :
 <
 
@@ -149,7 +143,7 @@ HEALTHCHECK --interval=1m --timeout=30s --retries=3 CMD curl --fail http://local
 
 ## Testing
 
-```bash SQLSTATE[HY000]: General error: 1 no such table: heartbeats (SQL: select * from "heartbeats" where "type" = 2 and "updated_at" >= 2021-06-05 19:58:24 limit 1) 
+```bash
 composer test
 ```
 

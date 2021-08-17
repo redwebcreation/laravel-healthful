@@ -8,8 +8,6 @@ use RWC\Healthful\Controllers\HealthcheckController;
 
 class Health
 {
-    public static string $route = '/_/health';
-
     /** @var Check[]|class-string[] */
     protected array $checks;
 
@@ -20,7 +18,7 @@ class Health
 
     public static function route(): \Illuminate\Routing\Route
     {
-        return Route::get(static::$route, HealthcheckController::class)->name('healthcheck');
+        return Route::get(config('healthful.route'), HealthcheckController::class)->name('healthcheck');
     }
 
     public function check(): bool

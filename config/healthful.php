@@ -5,9 +5,10 @@ use RWC\Healthful\Checks\QueueCheck;
 use RWC\Healthful\Checks\SchedulerCheck;
 
 return [
-    /**
-     * A list of checks to be performed.
-     */
+    /* The route that should return the health status */
+    'route' => '/_/health',
+
+    /* A list of checks to be performed. */
     'checks' => [
         DatabaseCheck::class,
         SchedulerCheck::class,
